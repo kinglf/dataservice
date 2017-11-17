@@ -19,10 +19,18 @@
             <groupId>top.kinglf.dataservice</groupId>
             <artifactId>dataservice-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>top.kinglf.dataservice</groupId>
+            <artifactId>dataservice-repo</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 

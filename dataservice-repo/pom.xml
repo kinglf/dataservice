@@ -19,6 +19,24 @@
             <groupId>top.kinglf.dataservice</groupId>
             <artifactId>dataservice-common</artifactId>
         </dependency>
+
+        <!-- Mybatis -->
+        <!--<dependency>-->
+            <!--<groupId>org.mybatis.spring.boot</groupId>-->
+            <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
+            <!--&lt;!&ndash; 请不要使用1.0.0版本，因为还不支持拦截器插件 &ndash;&gt;-->
+        <!--</dependency>-->
+        <!-- druid阿里巴巴数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <!-- MySql数据库驱动 -->
+        <dependency>
+            <groupId> mysql</groupId>
+            <artifactId> mysql-connector-java</artifactId>
+        </dependency>
+
     </dependencies>
 
     

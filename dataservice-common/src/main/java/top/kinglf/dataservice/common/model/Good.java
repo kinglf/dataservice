@@ -7,6 +7,7 @@ import java.util.Date;
  * 货物信息
  * @author Kinglf
  */
+@Entity
 @Table(name="goods")
 public class Good {
     /**
@@ -14,7 +15,7 @@ public class Good {
      */
     @Id
     @Column(name = "id")
-    private long id;
+    private String id;
     /**
      * 货物出发地,如有省份用-间隔
      */
@@ -73,6 +74,7 @@ public class Good {
     /**
      * 竞品Id
      */
+//    @Id
     @Column(name = "project_id")
     private long projectId;
     /**
@@ -112,11 +114,11 @@ public class Good {
         this.remark = remark;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

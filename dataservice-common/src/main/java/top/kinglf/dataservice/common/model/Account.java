@@ -1,6 +1,7 @@
 package top.kinglf.dataservice.common.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
  * 需要用到的账号
  * @author Kinglf
  */
+@Entity
 @Table(name = "account")
 public class Account {
     /**
