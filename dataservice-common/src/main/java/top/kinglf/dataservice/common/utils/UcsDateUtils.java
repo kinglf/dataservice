@@ -12,6 +12,7 @@ import java.util.TimeZone;
 public class UcsDateUtils extends org.apache.commons.lang3.time.DateUtils{
 
 	public static String F19 = "yyyy-MM-dd HH:mm:ss";
+	public static String F18 = "yyyy-MM-dd HH:mm";
 
 	public static String F14 = "yyyyMMddHHmmss";
 
@@ -27,6 +28,13 @@ public class UcsDateUtils extends org.apache.commons.lang3.time.DateUtils{
 			"yyyy/MM/dd",
 			"yyyy/MM/dd HH:mm:ss"
 	};
+
+	public static Date megerDate(Date day,String time) throws ParseException {
+		SimpleDateFormat df=new SimpleDateFormat(F10);
+		String format = df.format(day);
+		SimpleDateFormat df2=new SimpleDateFormat(F19);
+		return df2.parse(format+" "+time+":00");
+	}
 
 	public static Date stringToDate(String dateString) {
 		Date date = null;

@@ -1,6 +1,7 @@
 package top.kinglf.dataservice.common.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -9,13 +10,14 @@ import java.util.Date;
  * 车主信息
  * @author Kinglf
  */
+@Entity
 @Table(name = "cars")
 public class Car {
     /**
      * 车主信息ID
      */
     @Id
-    private long id;
+    private String id;
     /**
      * 货物出发地,如有省份用-间隔
      */
@@ -70,6 +72,7 @@ public class Car {
     /**
      * 竞品id
      */
+//    @Id
     @Column(name = "project_id")
     private long projectId;
     private String tel1;
@@ -101,11 +104,11 @@ public class Car {
      */
     private String remark;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

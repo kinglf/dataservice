@@ -1,25 +1,24 @@
 package top.kinglf.dataservice.common.model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 竞品
  * @author Kinglf
  */
+@Entity
 @Table(name = "projects")
 public class Project {
     /**
      * 竞品id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     /**
      * 竞品主名称(默认是网站名称)
      */
-    @Column(name = "main_name")
     private String mainName;
     /**
      * 竞品名称
@@ -36,7 +35,6 @@ public class Project {
     /**
      * 抓取模块? 抓取方式
      */
-    @Column(name = "crawl_part")
     private String crawlPart;
     /**
      * 抓取端
@@ -45,22 +43,18 @@ public class Project {
     /**
      * 竞品端状态,可用/不可用
      */
-    @Column(name = "client_status")
     private String clientStatus;
     /**
      * 采集状态
      */
-    @Column(name = "crawl_status")
     private String crawlStatus;
     /**
      * 采集数量
      */
-    @Column(name = "crawled_count")
     private long crawledCount;
     /**
      * 有效数据量
      */
-    @Column(name = "valied_count")
     private long valiedCount;
     /**
      * 备注
@@ -69,7 +63,6 @@ public class Project {
     /**
      * 抓取软件路径
      */
-    @Column(name = "software_path")
     private String softwarePath;
     /**
      * 开发人
@@ -90,27 +83,22 @@ public class Project {
     /**
      * 分析信息总量
      */
-    @Column(name = "info_total")
     private long infoTotal;
     /**
      * 分析信息更新量
      */
-    @Column(name = "info_update")
     private long infoUpdate;
     /**
      * 分析信息更新周期
      */
-    @Column(name = "info_update_cycle")
     private String infoUpdateCycle;
     /**
      * 创建日期
      */
-    @Column(name = "create_date")
     private Date createDate;
     /**
      * 更新日期
      */
-    @Column(name = "update_date")
     private Date updateDate;
 
     private String parser;
