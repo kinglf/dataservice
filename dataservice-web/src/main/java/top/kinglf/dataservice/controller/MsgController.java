@@ -19,18 +19,28 @@ public class MsgController {
     @Autowired
     private JMSService jmsService;
 
+    /**
+     * 接收消息
+     * @param data
+     * @return
+     */
     @RequestMapping(value = "receives", method = RequestMethod.POST)
     public @ResponseBody
     String receives(String data) {
-        List<KMessage> kMessages = JSON.parseArray(data, KMessage.class);
-        System.out.println("接收到数据" + kMessages.size() + "----" + data);
         try {
-            jmsService.send(kMessages);
-            return "ok";
-        } catch (JMSException e) {
+
+            List<KMessage> kMessages = JSON.parseArray(data, KMessage.class);
+            System.out.println("接收到数据" + kMessages.size() + "----" + data);
+            try {
+                jmsService.send(kMessages);
+                return "ok";
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return"error";
-}
+        return "error";
+    }
 
 }

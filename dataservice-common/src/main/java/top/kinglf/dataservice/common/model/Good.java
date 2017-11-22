@@ -14,8 +14,12 @@ public class Good {
      * 货主信息ID
      */
     @Id
-    @Column(name = "id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    /**
+     * 数据ID
+     */
+    private String dataId;
     /**
      * 货物出发地,如有省份用-间隔
      */
@@ -106,6 +110,7 @@ public class Good {
      */
     private String remark;
 
+
     public String getRemark() {
         return remark;
     }
@@ -114,11 +119,11 @@ public class Good {
         this.remark = remark;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -280,5 +285,13 @@ public class Good {
 
     public void setWorkFlowStatus(String workFlowStatus) {
         this.workFlowStatus = workFlowStatus;
+    }
+
+    public String getDataId() {
+        return dataId;
+    }
+
+    public void setDataId(String dataId) {
+        this.dataId = dataId;
     }
 }

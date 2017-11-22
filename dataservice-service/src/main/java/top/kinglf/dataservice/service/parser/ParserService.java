@@ -3,12 +3,14 @@ package top.kinglf.dataservice.service.parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import top.kinglf.dataservice.common.exception.ParserException;
 import top.kinglf.dataservice.common.model.Car;
 import top.kinglf.dataservice.common.model.Good;
 import top.kinglf.dataservice.common.model.KMessage;
 import top.kinglf.dataservice.common.model.Project;
 import top.kinglf.dataservice.repository.GoodRepository;
 import top.kinglf.dataservice.service.ProjectService;
+import top.kinglf.dataservice.service.db.CarService;
 import top.kinglf.dataservice.service.db.GoodService;
 
 import java.util.HashMap;
@@ -20,6 +22,8 @@ public class ParserService {
     private ProjectService projectService;
     @Autowired
     private GoodService goodService;
+    @Autowired
+    private CarService carService;
     private Map<Long, Parser> serviceMap;
 
 
@@ -27,7 +31,7 @@ public class ParserService {
 //        sync();
 //    }
 
-    public void parser(KMessage msg) {
+    public void parser(KMessage msg) throws ParserException {
         if(serviceMap==null){
             projectService.syncCanParserProjectMap();
             init();
@@ -41,8 +45,11 @@ public class ParserService {
                 //TODO 转成商品,然后用商品数据服务更新/存储
             } else if (res instanceof Car) {
                 //TODO 转成车主,然后用商品数据服务更新/存储
+                Car car = (Car) res;
+                carService.saveIfNotExist(car);
             } else {
                 //TODO 异常,记录在日志中
+                System.err.println("解析异常");
             }
             //TODO 解析完成后存储
         }else {

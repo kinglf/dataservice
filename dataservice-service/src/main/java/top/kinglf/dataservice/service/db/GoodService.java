@@ -13,15 +13,17 @@ public class GoodService {
 
     public boolean saveIfNotExist(Good good) {
 //        goodRepository.
-        int exists = goodRepository.exists(good.getId(), good.getProjectId());
-        System.out.println("存在不存在="+exists);
-        if (exists > 0) {
-            System.out.println("不陈宫");
-            return false;
-        } else {
+//        int exists = goodRepository.exists(good.getDataId(), good.getProjectId());
+//        if (exists > 0) {
+//            return false;
+//        } else {
+        try {
             goodRepository.save(good);
             System.out.println("保存成功");
             return true;
+        } catch (Exception e) {
+            return false;
         }
+//        }
     }
 }

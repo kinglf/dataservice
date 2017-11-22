@@ -39,7 +39,8 @@ public class RocketMQServiceImpl implements JMSService {
     private int sendMsgTimeout;
     @Value("${rocketmq.producer.topic}")
     private String topic;
-    private String consumerGroupName = "consumer222";
+    @Value("${rocketmq.consumer.groupName}")
+    private String consumerGroupName;
     @Autowired
     private ConsumeMessageLinstener consumeMessageLinstener;
     private DefaultMQProducer producer;

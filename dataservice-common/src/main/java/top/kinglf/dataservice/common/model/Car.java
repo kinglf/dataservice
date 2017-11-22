@@ -1,9 +1,6 @@
 package top.kinglf.dataservice.common.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,7 +14,12 @@ public class Car {
      * 车主信息ID
      */
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    /**
+     * 数据ID
+     */
+    private String dataId;
     /**
      * 货物出发地,如有省份用-间隔
      */
@@ -104,11 +106,25 @@ public class Car {
      */
     private String remark;
 
-    public String getId() {
+    /**
+     * 车牌号
+     */
+    @Column(name = "car_card_no")
+    private String carCardNo;
+
+    public String getCarCardNo() {
+        return carCardNo;
+    }
+
+    public void setCarCardNo(String carCardNo) {
+        this.carCardNo = carCardNo;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -286,5 +302,13 @@ public class Car {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getDataId() {
+        return dataId;
+    }
+
+    public void setDataId(String dataId) {
+        this.dataId = dataId;
     }
 }

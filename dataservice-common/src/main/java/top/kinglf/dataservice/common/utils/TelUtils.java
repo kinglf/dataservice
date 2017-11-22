@@ -1,5 +1,9 @@
 package top.kinglf.dataservice.common.utils;
 
+import top.kinglf.dataservice.common.model.Car;
+import top.kinglf.dataservice.common.model.Good;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,6 +11,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TelUtils {
+    public static void putTels2Bean(Object obj,String tels){
+        ArrayList<String> telList = getTelList(tels);
+        if(obj instanceof Good){
+            ((Good) obj).setTel1(telList.get(0));
+            ((Good) obj).setTel2(telList.get(1));
+            ((Good) obj).setTel3(telList.get(2));
+            ((Good) obj).setTel4(telList.get(3));
+            ((Good) obj).setTel5(telList.get(4));
+        }else if(obj instanceof Car){
+            ((Car) obj).setTel1(telList.get(0));
+            ((Car) obj).setTel2(telList.get(1));
+            ((Car) obj).setTel3(telList.get(2));
+            ((Car) obj).setTel4(telList.get(3));
+            ((Car) obj).setTel5(telList.get(4));
+        }
+    }
     public static ArrayList<String> getTelList(String strContainTel){
         ArrayList<String> telsArr=new ArrayList<>();
         strContainTel = StringFormer.format(strContainTel);

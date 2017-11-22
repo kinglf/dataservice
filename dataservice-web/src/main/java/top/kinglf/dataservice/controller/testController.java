@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.kinglf.dataservice.common.exception.ParserException;
 import top.kinglf.dataservice.common.model.KMessage;
 import top.kinglf.dataservice.common.model.Project;
 import top.kinglf.dataservice.repository.ProjectRepository;
@@ -22,7 +23,11 @@ public class testController {
     ProjectRepository projectRepository;
     @RequestMapping("parser")
     public void testParser(){
-        parserService.parser(new KMessage());
+        try {
+            parserService.parser(new KMessage());
+        } catch (ParserException e) {
+            e.printStackTrace();
+        }
     }
     @RequestMapping("projectList")
     public void projectList(){

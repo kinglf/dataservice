@@ -9,6 +9,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.kinglf.dataservice.common.exception.JMSException;
+import top.kinglf.dataservice.common.exception.ParserException;
 import top.kinglf.dataservice.common.model.KMessage;
 import top.kinglf.dataservice.service.jms.JMSService;
 import top.kinglf.dataservice.service.parser.ParserService;
@@ -30,6 +31,13 @@ public class ConsumeMessageLinstener implements MessageListenerConcurrently {
                 KMessage kMessage = JSONObject.toJavaObject(jsonObject, KMessage.class);
                 parserService.parser(kMessage);
             } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                try {
+                    jmsService.send(msg);
+                } catch (JMSException e1) {
+                    e1.printStackTrace();
+                }
+            } catch (ParserException e) {
                 e.printStackTrace();
                 try {
                     jmsService.send(msg);

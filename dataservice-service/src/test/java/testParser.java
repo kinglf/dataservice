@@ -1,4 +1,5 @@
 import org.junit.Test;
+import top.kinglf.dataservice.common.exception.ParserException;
 import top.kinglf.dataservice.common.model.Car;
 import top.kinglf.dataservice.common.model.Good;
 import top.kinglf.dataservice.common.model.KMessage;
@@ -9,7 +10,12 @@ public class testParser {
     @Test
     public void testT(){
         Parser parser=new WanShunRemixParser();
-        Object parser1 = parser.parser(new KMessage());
+        Object parser1 = null;
+        try {
+            parser1 = parser.parser(new KMessage());
+        } catch (ParserException e) {
+            e.printStackTrace();
+        }
         if(parser1 instanceof Good){
             System.out.println("货物信息");
         }else if(parser1 instanceof Car) {
