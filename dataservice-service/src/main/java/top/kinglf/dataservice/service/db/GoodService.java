@@ -3,8 +3,12 @@ package top.kinglf.dataservice.service.db;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import top.kinglf.dataservice.common.model.Car;
 import top.kinglf.dataservice.common.model.Good;
 import top.kinglf.dataservice.repository.GoodRepository;
+
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class GoodService {
@@ -25,5 +29,13 @@ public class GoodService {
             return false;
         }
 //        }
+    }
+    public List<Good> getGoodList(long projectId, Date startDate, Date endDate){
+
+        return goodRepository.getGoodsByDate(projectId,startDate,endDate);
+    }
+
+    public List<Good> getGoodList(long project_id,Date startDate){
+        return getGoodList(project_id,startDate,new Date());
     }
 }
