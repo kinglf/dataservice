@@ -4,12 +4,12 @@ import top.kinglf.dataservice.common.model.Car;
 import top.kinglf.dataservice.common.model.Good;
 import top.kinglf.dataservice.common.model.KMessage;
 import top.kinglf.dataservice.service.parser.Parser;
-import top.kinglf.dataservice.service.parser.WanShunRemixParser;
+import top.kinglf.dataservice.service.parser.WanShun_Remix_Parser;
 
 public class testParser {
     @Test
     public void testT(){
-        Parser parser=new WanShunRemixParser();
+        Parser parser=new WanShun_Remix_Parser();
         Object parser1 = null;
         try {
             parser1 = parser.parser(new KMessage());

@@ -36,20 +36,15 @@ public class ParserController {
         }
     }
 
-    @RequestMapping("addTestData")
-    public String add(String flag) {
-        for (int i = 0; i < 10; i++) {
-            KMessage kMsg = new KMessage();
-            kMsg.setProjectId(Long.parseLong(flag));
-            kMsg.setContext("asdlkasdkljasdkl");
-            try {
-                jmsService.send(kMsg);
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
+    @RequestMapping("stop")
+    public String stop() {
+        try {
+            jmsService.stopConsumerMessage();
+            return "ok";
+        } catch (JMSException e) {
+            e.printStackTrace();
         }
-        System.out.println("添加10条flag=" + flag + "的信息");
-        return "";
+        return "failed";
     }
     /**
      *重置消费位置功能在后续添加,先在console中操作

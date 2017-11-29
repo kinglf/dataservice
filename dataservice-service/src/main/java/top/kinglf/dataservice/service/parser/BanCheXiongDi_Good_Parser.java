@@ -12,7 +12,7 @@ import top.kinglf.dataservice.common.utils.UcsDateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class BanCheXiongDiGoodParser implements Parser<Good> {
+public class BanCheXiongDi_Good_Parser implements Parser<Good> {
     @Override
     public Good parser(KMessage msg) throws ParserException {
         String context = msg.getContext();

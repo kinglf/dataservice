@@ -9,7 +9,7 @@ import top.kinglf.dataservice.common.utils.UcsDateUtils;
 
 import java.util.Date;
 
-public class ZhongKeYiLuTongCarParser implements Parser<Car> {
+public class ZhongKeYiLuTong_Car_Parser implements Parser<Car> {
     @Override
     public Car parser(KMessage msg) throws ParserException {
         String context = msg.getContext();

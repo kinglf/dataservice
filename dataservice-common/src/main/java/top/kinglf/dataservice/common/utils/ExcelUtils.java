@@ -1,11 +1,15 @@
 package top.kinglf.dataservice.common.utils;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.format.CellFormatType;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
+import top.kinglf.dataservice.common.TableField;
+import top.kinglf.dataservice.common.model.Car;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,60 +19,9 @@ import java.util.Map;
  * Created by Administrator on 2016/6/8.
  */
 public class ExcelUtils {
+    private static final int MAX_ROWS_EVERY_SHEET = 10 * 10000;
 
-    /**
-     * 导出
-     *
-     * @param file     Excel文件(路径+文件名)，Excel文件不存在会自动创建
-     * @param dataList 数据
-     * @return
-     */
-    public static boolean exportCsv(File file,List<Map> dataList, FileOutputStream outputStream) {
-        boolean isSucess = false;
-        // 创建一个workbook 对应一个excel应用文件
-        XSSFWorkbook workBook = new XSSFWorkbook();
-        // 在workbook中添加一个sheet,对应Excel文件中的sheet
-        XSSFSheet sheet = workBook.createSheet("导出excel例子");
-        ExportUtil exportUtil = new ExportUtil(workBook, sheet);
-        XSSFCellStyle headStyle = exportUtil.getHeadStyle();
-        XSSFCellStyle bodyStyle = exportUtil.getBodyStyle();
-        // 构建表头
-        XSSFRow headRow = sheet.createRow(0);
-        XSSFCell cell = null;
-        // 构建表体数据
-        if (dataList != null && dataList.size() > 0) {
-            for (int j = 0; j < dataList.size(); j++) {
-                XSSFRow bodyRow = sheet.createRow(j + 1);
-                Map<String, String> data = dataList.get(j);
-                int i = 0;
-                for (Map.Entry<String, String> entry : data.entrySet()) {
-                    if (j == 0) {
-                        cell = headRow.createCell(i);
-                        cell.setCellStyle(headStyle);
-                        cell.setCellValue(entry.getKey());
-                    }
-                    cell = bodyRow.createCell(i);
-                    cell.setCellStyle(bodyStyle);
-                    cell.setCellValue(entry.getValue());
-                    i++;
-                }
-            }
-        }
-        try {
-            workBook.write(outputStream);
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return isSucess;
-        }
-    }
+
     /**
      * 导入
      *
@@ -85,10 +38,10 @@ public class ExcelUtils {
                 for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
                     Map data = new HashMap();
                     XSSFRow rows = sheet.getRow(i);
-                    for (int j = 0;j<keys.getPhysicalNumberOfCells();j++) {
+                    for (int j = 0; j < keys.getPhysicalNumberOfCells(); j++) {
                         String key = keys.getCell(j).toString().replaceAll("[\\s\\u00A0]+$", "");
                         String value = rows.getCell(j).toString().replaceAll("[\\s\\u00A0]+$", "");
-                        data.put(key,value);
+                        data.put(key, value);
                     }
                     dataList.add(data);
                 }
@@ -97,6 +50,89 @@ public class ExcelUtils {
             e.printStackTrace();
         }
         return dataList;
+    }
+
+    /**
+     * 将list导出到Excel文件,文件不存在自动创建
+     * * @param fileName
+     *
+     * @param list
+     * @return
+     */
+    public static boolean saveBeanList2Excel(String fileName, List list) {
+        int i = 1;
+        while (true) {
+            if (list.size() < MAX_ROWS_EVERY_SHEET) {
+                fillData2workBook(fileName, list);
+                break;
+            } else {
+                String newFileName = fileName.replace(".xlsx", "-" + i + ".xlsx");
+                List list1 = list.subList(0, MAX_ROWS_EVERY_SHEET);
+                fillData2workBook(newFileName, list1);
+                list.subList(0, MAX_ROWS_EVERY_SHEET).clear();
+                i++;
+            }
+
+        }
+        return true;
+
+    }
+
+    private static boolean fillData2workBook(String fileName, List dataList) {
+        File xlsFile = new File(fileName);
+        if (!xlsFile.getParentFile().exists()) {
+            xlsFile.getParentFile().mkdirs();
+        }
+        if (xlsFile.isDirectory()) {
+            return false;
+        }
+        Field[] fields = dataList.get(0).getClass().getDeclaredFields();
+        List<Field> fieldList = new ArrayList<>();
+        List<String> excelHeaderList = new ArrayList<>();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(TableField.class)) {
+                field.setAccessible(true);
+                fieldList.add(field);
+                TableField fieldAnnotation = field.getAnnotation(TableField.class);
+                String field1 = fieldAnnotation.field();
+                excelHeaderList.add(field1);
+            }
+        }
+        XSSFWorkbook workBook = new XSSFWorkbook();
+        Sheet sheet = workBook.createSheet();
+        Row row = sheet.createRow(0);
+        for (int i = 0; i < excelHeaderList.size(); i++) {
+            row.createCell(i).setCellType(HSSFCell.CELL_TYPE_STRING);
+            row.getCell(i).setCellValue(excelHeaderList.get(i));
+        }
+        for (int i = 0; i < dataList.size(); i++) {
+            Object obj = dataList.get(i);
+            Row row1 = sheet.createRow(i + 1);
+            for (int j = 0; j < fieldList.size(); j++) {
+                row1.createCell(j).setCellType(HSSFCell.CELL_TYPE_STRING);
+                try {
+                    Object o = fieldList.get(j).get(obj);
+                    row1.getCell(j).setCellValue(String.valueOf(o));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(xlsFile);
+            workBook.write(fos);
+            fos.flush();
+            fos.close();
+//            workBook.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+
     }
 }
 

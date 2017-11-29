@@ -8,7 +8,7 @@ import top.kinglf.dataservice.common.model.KMessage;
 
 import java.util.Date;
 
-public class WuTong_WuTongWangPeiHuoJingJiRenCarParser implements Parser<Car> {
+public class WuTong_WuTongWangPeiHuoJingJiRen_Car_Parser implements Parser<Car> {
     @Override
     public Car parser(KMessage msg) throws ParserException {
         String context = msg.getContext();

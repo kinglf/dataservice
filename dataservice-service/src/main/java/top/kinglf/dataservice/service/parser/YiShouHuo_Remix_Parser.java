@@ -10,7 +10,7 @@ import top.kinglf.dataservice.common.utils.UcsDateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class YiShouHuoRemixParser implements Parser<Good> {
+public class YiShouHuo_Remix_Parser implements Parser<Good> {
     private int projectId = 2;
 
 

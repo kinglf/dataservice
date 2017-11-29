@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class WanShunRemixParser implements Parser<Good> {
+public class WanShun_Remix_Parser implements Parser<Good> {
     private int projectId = 1;
 
     //

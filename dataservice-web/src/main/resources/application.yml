@@ -2,7 +2,7 @@ logging:
   level:
    #打印SQL信息
 #   top.kinglf.dataservice.service.jms: debug
-
+    o.h.engine.jdbc.spi.SqlExceptionHelper: error
 
 rocketmq:
   producer:
@@ -46,7 +46,7 @@ spring:
     filters: stat,wall,log4j
   jpa:
     database: MYSQL
-    show-sql: true
+    show-sql: false
     generate-ddl: false
     hibernate:
       ddl-auto: none

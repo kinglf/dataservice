@@ -2,6 +2,9 @@ package top.kinglf.dataservice.common.utils;
 
 public class StringFormer {
     public static String format(String dstStr){
+        if(dstStr==null){
+            return "";
+        }
         dstStr = dstStr.replaceAll("\\s+", " ");									//替换所有的空白字符,部分空白符号，mysql不支持;
         dstStr = dstStr.replaceAll("([a-z|0-9|A-Z|\u4e00-\u9fa5])\\1{11,}", "");	//替换连续相同11位及以上的字符
         dstStr = dstStr.replaceAll("<.*?>", "");									//替换所有的网页标签
